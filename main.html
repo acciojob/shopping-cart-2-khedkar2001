@@ -1,16 +1,80 @@
 <!DOCTYPE html>
-
-<html>
-
+<html lang="en">
 <head>
-      <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart 2</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-	<!-- the entire body must be written by student -->
-    <script type="text/javascript" src="./script.js">
-</script>
+  <h2>Shopping Cart</h2>
 
+  <!-- Input fields -->
+  <input type="text" id="item-name-input" placeholder="Enter item name">
+  <input type="number" id="item-price-input" placeholder="Enter item price">
+  <button id="add-btn">Add</button>
+
+  <!-- Table -->
+  <table border="1" style="margin-top:20px; border-collapse: collapse;">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody id="cart-body">
+      <!-- Items will appear here -->
+    </tbody>
+    <tfoot>
+      <tr>
+        <td><b>Total</b></td>
+        <td data-ns-test="grandTotal">0</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <script>
+    const nameInput = document.getElementById("item-name-input");
+    const priceInput = document.getElementById("item-price-input");
+    const addBtn = document.getElementById("add-btn");
+    const cartBody = document.getElementById("cart-body");
+    const grandTotalEl = document.querySelector('[data-ns-test="grandTotal"]');
+
+    let grandTotal = 0;
+
+    addBtn.addEventListener("click", () => {
+      const itemName = nameInput.value.trim();
+      const itemPrice = parseFloat(priceInput.value.trim());
+
+      // Validation
+      if (!itemName || isNaN(itemPrice) || itemPrice <= 0) {
+        alert("Please enter valid item name and price.");
+        return;
+      }
+
+      // Create row
+      const row = document.createElement("tr");
+
+      const nameCell = document.createElement("td");
+      nameCell.setAttribute("data-ns-test", "item-name");
+      nameCell.textContent = itemName;
+
+      const priceCell = document.createElement("td");
+      priceCell.setAttribute("data-ns-test", "item-price");
+      priceCell.textContent = itemPrice;
+
+      row.appendChild(nameCell);
+      row.appendChild(priceCell);
+      cartBody.appendChild(row);
+
+      // Update grand total
+      grandTotal += itemPrice;
+      grandTotalEl.textContent = grandTotal;
+
+      // Clear inputs
+      nameInput.value = "";
+      priceInput.value = "";
+    });
+  </script>
 </body>
-
 </html>
